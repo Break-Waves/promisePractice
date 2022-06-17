@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+         const p1 = new Promise((resolve,reject)=>{
+            try {
+                console.log('请求获取数据 A.......');
+                // throw new Error('断浪马上就回来')
+                setTimeout(()=>{
+                    resolve({username:'断浪'})
+                    console.log('数据A 获取成功！');
+                },2000)
+            } catch (e) {
+                console.log('数据获取失败');
+                reject(e.message)
+            }
+        })
+        console.log('p1',p1);
+        const p2 = p1.then((value)=>{
+            console.log('宝宝你太棒了！',value);
+            return  new Promise((resolve,reject)=>{
+                try {
+                    console.log('请求获取数据 B.......');
+                    throw new Error('断浪放假了')
+                    setTimeout(()=>{
+                        resolve({userAction:'曾经爱过'})
+                        console.log('数据B 获取成功！');
+                    },2000)
+                } 
+                catch (error) {
+                    reject(error.message)
+                }
+            })
+        }
+        ,
+        (reason)=>{
+            console.log('嘤嘤嘤~，让宝贝再试一次好吗',reason);
+        })
+        console.log('p2',p2);
+    </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const p1 = new Promise((resolve,reject)=>{
+           try {
+               console.log('请求获取数据 A.......');
+            //    throw new Error('断浪马上就回来')
+               setTimeout(()=>{
+                   resolve({username:'断浪'})
+                   console.log('数据A 获取成功！');
+               },2000)
+           } catch (e) {
+               console.log('数据获取失败');
+               reject(e.message)
+           }
+       })
+       console.log('p1',p1);
+      
+           /* 
+      finally方法:
+        - 无论调用finally方法的promise实例是成功还是失败,都能进入finally的回调函数中执行
+        - finally不接受promise实例的值
+        - finally的返回值
+          - 默认穿透(finally的返回值和调用finally的promise实例保持一致)
+          - 当finally的回调函数返回一个失败的promise实例时,finally的返回值和这个失败的promise实例保持一致
+          - 当finally的回调函数中报错,则finally返回失败的promise实例,值为错误信息
+    */
+       const p2 = p1.finally((reason)=>{
+        console.log('finally',reason);
+
+        // throw new Error("finally报错")
+      return new Promise((resolve, reject) => {
+        resolve("finally成功")
+        // reject("finally失败")
+      })
+       })
+       
+    console.log("p2", p2);
+   </script>
+</body>
+</html>
